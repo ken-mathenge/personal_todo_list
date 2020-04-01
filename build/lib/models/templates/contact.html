@@ -1,0 +1,25 @@
+{% extends "feed_base.html" %}
+
+{% block title %}Todo List | Feedback{% endblock %}
+
+{% block headcss %}
+  <style>
+    .errorlist{
+      color:#ff0000;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col s12">
+      <span style="font-family:  Walter Turncoat; "><h4>Feedback <i class="fas fa-comment-dots"></i></h4></span>
+      <form action="" method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary" type="submit" name="action">Submit
+          <i class="fas fa-share"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

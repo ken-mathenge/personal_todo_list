@@ -1,0 +1,20 @@
+[run]
+omit = 
+	manage.py
+	*tests.py
+	*apps.py
+	*urls.py
+	*wsgi.py
+	setup.py
+	fabfile.py
+	*.tox/*
+	ve/*
+	*/celery.py
+	feedback/emails.py
+	users/serializers.py
+	*/migrations/*
+	*/__init__.py
+	*/settings.py
+	*/admin.py
+	*/tasks.py
+

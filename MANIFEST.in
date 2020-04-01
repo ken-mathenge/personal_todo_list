@@ -1,0 +1,8 @@
+include LICENSE
+include README.rst
+include .env
+include tox.ini
+include models/templates/*.html
+include feedback/templates/*.html
+include feedback/templates/feedback/email/*
+include static *

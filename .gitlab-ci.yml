@@ -1,0 +1,42 @@
+stages:
+  - test
+  - deploy
+  - playbook
+
+python_test:
+  image: python:3.6
+  stage: test
+  script:
+    - pip install virtualenv
+    - virtualenv --python=python3 ve
+    - source ve/bin/activate
+    - pip3 install -rrequirements.txt --quiet --upgrade
+    - tox -r
+
+deploy_to_pypi:
+  image: python:3.6
+  stage: deploy
+  only:
+    - master
+  script:
+    - mkdir -p $HOME
+    - cp ./.pypirc $HOME/.pypirc
+    - pip3 install virtualenv
+    - virtualenv --python=python3 ve
+    - source ve/bin/activate
+    - pip3 install -r requirements.txt --quiet --upgrade
+    - python setup.py sdist bdist_wheel
+    - twine upload dist/*
+    - rm dist/*
+
+deploy_to_server:
+  image: mathengeken/ubuntuwithssh
+  stage: playbook
+  variables:
+    ANSIBLE_HOST_KEY_CHECKING: "False"
+  only:
+    - master
+  script:
+    - python3 -m venv ve
+    - pip3 install ansible
+    - ansible-playbook -i ansible/hosts.yml ansible/server_play.yml --tags "pipinstall"

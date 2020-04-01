@@ -1,0 +1,14 @@
+	server {
+
+
+        server_name mathengetodo.duckdns.org www.mathengetodo.duckdns.org;
+
+        location /static/ {
+                root /home/kentay/SIL_Backend_Project;
+}
+
+        location / {
+                include proxy_params;
+                proxy_pass http://unix:/home/kentay/SIL_Backend_Project/SIL_Backend_Project.sock;
+        }
+}

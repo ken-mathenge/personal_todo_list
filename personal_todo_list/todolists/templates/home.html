@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+
+	{% if messages %}
+	{% for message in messages %}
+		<div class="alert alert-warning alert-dismissable" roles="alert">
+			<button class="close" data-dismiss="alert">
+				<small><sup>x</sup></small>
+			</button>
+			{{ message }}
+		</div>
+	{% endfor %}
+	{% endif %}
+
+	{% load socialaccount %}
+	{% if user.is_authenticated %}
+	<span style="font-family:  Walter Turncoat; "><p>Hello <span style="color:#039be5;"><strong>{{ user.username }}</strong></span> <span style="color: #ffeb3b"><i class="fas fa-smile-wink"></i></span>. Click me  if you'd like to <a href="{% url 'account_logout' %}">sign-out <i class="fas fa-sign-out-alt"></i></a></p>
+	<!--<p>Would you like to share your <a href="{% url 'feedback' %}">Feedback? <i class="fas fa-comment-dots"></i></a></p></span>-->
+	
+		<hr>
+	<span style="font-family:Swanky and Moo Moo; font-size: 18px;">
+	{% if all_items %}
+		<table class="table table-striped">
+		{% for things in all_items %}
+			<tbody>
+				<tr>
+					<td>{{ things.item}} </td>
+					<td><center><a href="{% url 'delete' things.id %}"><i class="fas fa-trash"</a></center></td>
+				</tr>
+			</tbody>
+		{% endfor %}
+		</table>
+	{% endif %}
+	</span>
+
+	{% else %}
+	<span style="font-family:  Walter Turncoat; "><h4>You have Sign-in first to use me <i class="fas fa-sign-in-alt"></i></h4> <br>
+	<hr><p>New Here? Follow me then ... <a href="{% url 'account_signup' %}">Sign Up</a></p><hr>
+	<p>Or</p><hr>
+	<p>If you already have an account ... <a href="{% url 'account_login' %}">Log In </a></p><hr>
+	<!--<p>Or</p><hr>
+	<p>You can ... <a href="{% provider_login_url 'google' %}">Log In with Google</a></p></span><hr>-->
+	{% endif %}
+
+{% endblock %}
+
