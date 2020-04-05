@@ -17,10 +17,9 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
     # Allauth
-    path('accounts/', include('allauth.urls')),
-
+    # path('accounts/', include('allauth.urls')),
     # Views
-    path('', include('personal_todo_list.todolists.urls')),
+    path("checklist", include("personal_todo_list.todolists.urls")),
 ]

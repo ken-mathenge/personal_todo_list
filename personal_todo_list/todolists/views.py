@@ -1,28 +1,40 @@
 """Todolists app views."""
-from django.contrib import messages
-from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, DetailView, DeleteView
 
-from .forms import TodoListForm
+# from django.contrib import messages
+# from django.shortcuts import redirect, render
+
+# from .forms import TodoListForm
 from .models import TodoList
 
 
-def home(request):
-    """View to add a post."""
-    if request.method == "POST":
-        form = TodoListForm(request.POST or None)
-        if form.is_valid():
-            form.save()
-            all_items = TodoList.objects.all
-            messages.success(request, ("Item successfully added"))
-            return render(request, "home.html", {"all_items": all_items})
+class TodoListView(ListView):
+    """Todo list list view."""
 
-    else:
-        all_items = TodoList.objects.all
-        return render(request, "home.html", {"all_items": all_items})
+    model = TodoList
+    template_name = "home.html"
+    context_object_name = "lists"
 
 
-def delete(request, list_id):
-    """View to delete a post."""
-    item = TodoList.objects.get(pk=list_id)
-    item.delete()
-    return redirect("home")
+class TodoListDetailView(DetailView):
+    """Todo list detail view."""
+
+    model = TodoList
+    template_name = "details.html"
+    context_object_name = "details"
+
+
+class TodoListCreateView(CreateView):
+    """Add an item to a todo list."""
+
+    model = TodoList
+    fields = ["item", "details", "remind_on"]
+    template_name = "create.html"
+
+
+class TodoListDeleteView(DeleteView):
+    """Delete an item from the list."""
+
+    model = TodoList
+    success_url = reverse_lazy("list")
